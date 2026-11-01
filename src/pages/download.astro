@@ -30,7 +30,7 @@ const fmt = (d: string) =>
     <DownloadCard title="Android" badge={`Version ${site.version}`} primary>
       Not on the Play Store yet. Download the APK directly and install it on your phone.
       <Fragment slot="action">
-        <Button href={site.apkUrl} size="lg" block disabledLabel="APK link coming soon">
+        <Button href={site.apkUrl} size="lg" block disabledLabel="APK link coming soon" data-apk-btn>
           Download APK &middot; v{site.version}
         </Button>
       </Fragment>
@@ -107,6 +107,11 @@ const fmt = (d: string) =>
 </BaseLayout>
 
 <style>
+  @media (max-width: 520px) {
+    .head {
+      padding-top: 32px;
+    }
+  }
   .head {
     display: flex;
     flex-direction: column;
@@ -186,3 +191,19 @@ const fmt = (d: string) =>
     border-top: 1px solid var(--border);
   }
 </style>
+
+<script>
+  const btn = document.querySelector<HTMLAnchorElement>('[data-apk-btn]');
+  if (btn) {
+    const original = btn.innerHTML;
+    btn.addEventListener('click', () => {
+      if (btn.getAttribute('aria-busy') === 'true') return;
+      btn.setAttribute('aria-busy', 'true');
+      btn.innerHTML = '<span class="spinner" aria-hidden="true"></span>&nbsp;&nbsp;Starting download\u2026';
+      window.setTimeout(() => {
+        btn.innerHTML = original;
+        btn.removeAttribute('aria-busy');
+      }, 4000);
+    });
+  }
+</script>

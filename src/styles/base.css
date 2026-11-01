@@ -215,3 +215,52 @@ svg {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* Loading states */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+.spinner {
+  display: inline-block;
+  flex: none;
+  width: 1.1em;
+  height: 1.1em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+.skeleton--w50 { width: 50%; }
+.skeleton--w60 { width: 60%; }
+.skeleton--w80 { width: 80%; }
+.skeleton--w90 { width: 90%; }
+.skeleton--h12 { height: 12px; }
+.skeleton--h14 { height: 14px; }
+
+.skeleton {
+  display: block;
+  border-radius: 8px;
+  background: linear-gradient(90deg, var(--border) 25%, var(--teal-soft) 50%, var(--border) 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation: none;
+    border-right-color: currentColor;
+    opacity: 0.6;
+  }
+  .skeleton {
+    animation: none;
+  }
+}

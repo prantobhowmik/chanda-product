@@ -1,0 +1,10 @@
+---
+interface Props {
+  /** Announced to screen readers. Pass an empty string when a nearby label already says it. */
+  label?: string;
+}
+const { label = 'Loading' } = Astro.props;
+---
+
+<span class="spinner" aria-hidden="true"></span>
+{label && <span class="sr-only" role="status">{label}</span>}

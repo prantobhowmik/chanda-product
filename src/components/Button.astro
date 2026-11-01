@@ -7,6 +7,7 @@ interface Props {
   disabledLabel?: string;
   external?: boolean;
   block?: boolean;
+  [attr: `data-${string}`]: string | boolean | undefined;
 }
 const {
   href,
@@ -15,13 +16,14 @@ const {
   disabledLabel = 'Coming soon',
   external = false,
   block = false,
+  ...rest
 } = Astro.props;
 const cls = ['btn', `btn--${variant}`, `btn--${size}`, block && 'btn--block'].filter(Boolean).join(' ');
 ---
 
 {
   href ? (
-    <a class={cls} href={href} {...(external ? { rel: 'noopener' } : {})}>
+    <a class={cls} href={href} {...(external ? { rel: 'noopener' } : {})} {...rest}>
       <slot />
     </a>
   ) : (

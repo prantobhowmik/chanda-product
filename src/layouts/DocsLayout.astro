@@ -126,6 +126,16 @@ const next = i < all.length - 1 ? all[i + 1] : undefined;
     background: var(--surface);
     transition: border-color var(--ease);
   }
+  @media (max-width: 520px) {
+    .pager {
+      flex-direction: column;
+    }
+    .pager__link,
+    .pager__link--next {
+      width: 100%;
+      margin-left: 0;
+    }
+  }
   .pager__link--next {
     margin-left: auto;
     text-align: right;

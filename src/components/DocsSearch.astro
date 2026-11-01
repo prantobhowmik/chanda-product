@@ -92,6 +92,19 @@ import Icon from './Icon.astro';
     font-size: 0.8125rem;
     color: var(--muted);
   }
+  .search__results :global(.loading) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 12px;
+  }
+  .search__results :global(.loading__row) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
   .search__results :global(.empty) {
     padding: 12px;
     font-size: 0.9rem;
@@ -163,6 +176,24 @@ import Icon from './Icon.astro';
     opts[active]!.scrollIntoView({ block: 'nearest' });
   };
 
+  const showLoading = () => {
+    if (!list || !input) return;
+    list.replaceChildren();
+    const li = document.createElement('li');
+    li.className = 'loading';
+    li.setAttribute('role', 'presentation');
+    li.setAttribute('aria-busy', 'true');
+    li.innerHTML =
+      '<span class="loading__row"><span class="spinner" aria-hidden="true"></span><span>Searching\u2026</span></span>' +
+      '<span class="skeleton skeleton--w60 skeleton--h14"></span>' +
+      '<span class="skeleton skeleton--w90 skeleton--h12"></span>' +
+      '<span class="skeleton skeleton--w50 skeleton--h14"></span>' +
+      '<span class="skeleton skeleton--w80 skeleton--h12"></span>';
+    list.append(li);
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  };
+
   const render = () => {
     if (!list || !input || !index) return;
     const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
@@ -206,7 +237,10 @@ import Icon from './Icon.astro';
   };
 
   input?.addEventListener('focus', () => void load());
-  input?.addEventListener('input', () => void load().then(render));
+  input?.addEventListener('input', () => {
+    if (!index && input.value.trim()) showLoading();
+    void load().then(render);
+  });
   input?.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowDown') {
       e.preventDefault();

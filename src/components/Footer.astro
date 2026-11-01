@@ -39,6 +39,12 @@ import { site } from '../config/site';
     font-size: 1.25rem;
     color: var(--ink);
   }
+  @media (max-width: 600px) {
+    .footer__inner {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
   .footer__links {
     display: flex;
     flex-wrap: wrap;

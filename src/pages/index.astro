@@ -160,6 +160,25 @@ const jsonLd = {
   .hero__note {
     font-size: var(--fs-small);
   }
+  @media (max-width: 520px) {
+    .hero {
+      gap: 40px;
+      padding-top: 32px;
+    }
+    .hero__actions {
+      flex-direction: column;
+      width: 100%;
+    }
+    .hero__actions > :global(*) {
+      width: 100%;
+    }
+    .roles {
+      padding: 32px 20px;
+    }
+    .strip__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
   @media (min-width: 960px) {
     .hero {
       grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);

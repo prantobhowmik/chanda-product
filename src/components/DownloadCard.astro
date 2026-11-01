@@ -66,6 +66,11 @@ const { title, badge, primary = false, badgeTone = 'teal' } = Astro.props;
   .dl__action {
     margin-top: auto;
   }
+  @media (max-width: 520px) {
+    .dl {
+      padding: 24px;
+    }
+  }
   .dl__foot {
     color: var(--muted);
     font-size: 0.8125rem;
