@@ -18,7 +18,7 @@ const links = [
 
 <header class="nav">
   <div class="container nav__bar">
-    <a class="brand" href="/" aria-label={`${site.name} home`}>
+    <a class="brand" href="/">
       <span class="brand__mark" aria-hidden="true">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">
           <circle cx="12" cy="12" r="7.5"></circle>
@@ -26,6 +26,7 @@ const links = [
         </svg>
       </span>
       <span class="brand__word" lang="bn">{site.nameBn}</span>
+      <span class="sr-only">{site.name} home</span>
     </a>
 
     <div class="nav__extra"><slot /></div>
