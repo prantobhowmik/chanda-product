@@ -11,7 +11,8 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
-    "links": "node scripts/check-links.mjs"
+    "links": "node scripts/check-links.mjs",
+    "images": "node scripts/make-images.mjs"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",
