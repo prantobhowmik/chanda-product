@@ -34,3 +34,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# astro
+/dist
+/.astro
+
+# release binaries: never commit an APK
+*.apk
+/public/apk/
