@@ -1,0 +1,249 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import FeatureCard from '../components/FeatureCard.astro';
+import Step from '../components/Step.astro';
+import RoleCard from '../components/RoleCard.astro';
+import PhoneMock from '../components/PhoneMock.astro';
+import { site } from '../config/site';
+
+const strip = ['Offline first', 'Role based access', 'Approval workflow', 'PDF and Excel reports'];
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'SoftwareApplication',
+  name: site.name,
+  alternateName: site.nameBn,
+  description: site.description,
+  url: site.url,
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Android, Web',
+  softwareVersion: site.version,
+  license: 'https://opensource.org/licenses/MIT',
+  ...(site.apkUrl ? { downloadUrl: site.apkUrl } : {}),
+};
+---
+
+<BaseLayout
+  title={`${site.name}: ${site.tagline}`}
+  fullTitle
+  description={site.description}
+  section="home"
+  jsonLd={jsonLd}
+>
+  <section class="hero container">
+    <div class="hero__copy">
+      <p class="eyebrow">Donations and expenses, offline-first</p>
+      <h1>Every taka collected.<br />Every taka accounted for.</h1>
+      <p class="hero__sub">
+        Chanda helps your community committee record donations and expenses, with or without internet, and keeps
+        everyone's books in sync.
+      </p>
+      <div class="hero__actions">
+        <Button href="/download" size="lg">Download for Android</Button>
+        <Button href={site.webAppUrl} variant="secondary" size="lg" external>Open web app</Button>
+        <Button href="/docs/getting-started" variant="ghost" size="lg">Read the docs</Button>
+      </div>
+      <p class="hero__note muted">Available now on the web and for Android. iOS is coming soon.</p>
+    </div>
+    <PhoneMock />
+  </section>
+
+  <div class="strip">
+    <ul class="container strip__list">
+      {strip.map((s) => <li>{s}</li>)}
+    </ul>
+  </div>
+
+  <section class="section container" id="features" aria-labelledby="features-title">
+    <div class="section-head">
+      <p class="eyebrow">Features</p>
+      <h2 id="features-title">Built for the way committees really work.</h2>
+    </div>
+    <div class="grid grid--features">
+      <FeatureCard icon="offline" title="Works without internet">
+        Entries save on the phone first. The app never waits on the network.
+      </FeatureCard>
+      <FeatureCard icon="sync" title="Automatic cloud sync">
+        Changes sync to the cloud in the background. Sign in on a new device and all your records are restored.
+      </FeatureCard>
+      <FeatureCard icon="dashboard" title="Live dashboard">
+        Total collected, total spent and current balance for each festival. Admins can carry a festival's leftover
+        balance into a new one.
+      </FeatureCard>
+      <FeatureCard icon="approvals" title="Approvals you can trust">
+        Members submit donations and expenses. Admins approve or reject from a notification bell, and Android shows
+        alerts in the notification bar.
+      </FeatureCard>
+      <FeatureCard icon="archive" title="Archive, never lose">
+        Donations, expenses and members are archived instead of deleted. Admins can restore them.
+      </FeatureCard>
+      <FeatureCard icon="reports" title="Reports and sharing">
+        Export PDF and Excel files and share them from the app. Record cash, bKash, Nagad and bank payments.
+      </FeatureCard>
+    </div>
+  </section>
+
+  <section class="section container" id="how" aria-labelledby="how-title">
+    <div class="section-head">
+      <p class="eyebrow">How it works</p>
+      <h2 id="how-title">Record now. Sync when you can.</h2>
+    </div>
+    <ol class="grid grid--steps">
+      <Step n="01" title="Create a festival">
+        Set up a festival for your fund or event, then invite your members by email.
+      </Step>
+      <Step n="02" title="Record as it happens">
+        Log donations and expenses on your phone. Entries save locally, so recording works offline once you have signed in.
+      </Step>
+      <Step n="03" title="Review and report">
+        Admins approve or reject requests, check the balance and export PDF or Excel reports.
+      </Step>
+    </ol>
+  </section>
+
+  <section class="section container" aria-labelledby="roles-title">
+    <div class="roles">
+      <div class="roles__copy">
+        <p class="eyebrow roles__eyebrow">Teams and roles</p>
+        <h2 id="roles-title">Everyone helps. Admins decide.</h2>
+        <p class="roles__lead">
+          Every team has three roles: Admin, Cashier and Member. Admins invite members by email, and members can request an invitation.
+        </p>
+      </div>
+      <div class="roles__cards">
+        <RoleCard name="Admin">
+          Invites members, approves or rejects submissions and archive requests, restores archived items, carries
+          balances forward and renames the team.
+        </RoleCard>
+        <RoleCard name="Cashier">One of the three team roles, alongside Admin and Member.</RoleCard>
+        <RoleCard name="Member">
+          Submits donations and expenses for admin approval, and can request an invitation.
+        </RoleCard>
+      </div>
+    </div>
+  </section>
+
+  <section class="section container cta" aria-labelledby="cta-title">
+    <h2 id="cta-title">Ready to keep honest books?</h2>
+    <p class="muted">Download Chanda and set up your first festival. Web and Android now, iOS coming soon.</p>
+    <Button href="/download" size="lg">Download Chanda</Button>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    gap: 48px;
+    align-items: center;
+    padding-top: 48px;
+    padding-bottom: 64px;
+  }
+  .hero__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    align-items: flex-start;
+    min-width: 0;
+  }
+  .hero__sub {
+    max-width: 520px;
+    font-size: var(--fs-lead);
+    line-height: 1.55;
+    color: var(--muted);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .hero__note {
+    font-size: var(--fs-small);
+  }
+  @media (min-width: 960px) {
+    .hero {
+      grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+      padding-top: 72px;
+      padding-bottom: 96px;
+    }
+  }
+
+  .strip {
+    border-block: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .strip__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px 24px;
+    padding-block: 24px;
+    list-style: none;
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+
+  .grid {
+    display: grid;
+    gap: 20px;
+    list-style: none;
+    padding: 0;
+  }
+  .grid--features {
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  }
+  .grid--steps {
+    gap: 40px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+
+  .roles {
+    display: grid;
+    gap: 40px;
+    padding: 40px 24px;
+    border-radius: var(--radius-xl);
+    background: #0a1415;
+    color: #e9f2f2;
+  }
+  .roles__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .roles__eyebrow {
+    color: #3cc4b4;
+  }
+  .roles__lead {
+    color: #a9bfc0;
+    font-size: 1.0625rem;
+  }
+  .roles__cards {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr));
+  }
+  @media (min-width: 768px) {
+    .roles {
+      padding: 64px 48px;
+    }
+  }
+  @media (min-width: 1000px) {
+    .roles {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.5fr);
+      gap: 48px;
+    }
+  }
+
+  .cta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    text-align: center;
+  }
+  .cta h2 {
+    max-width: 720px;
+  }
+  .cta p {
+    max-width: 520px;
+  }
+</style>

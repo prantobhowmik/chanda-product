@@ -174,15 +174,13 @@ svg {
   border-radius: 6px;
   background: var(--teal-soft);
 }
-.prose .table-wrap {
+.prose table {
+  display: block;
   overflow-x: auto;
+  max-width: 100%;
   border: 1px solid var(--border);
   border-radius: var(--radius-m);
   background: var(--surface);
-}
-.prose table {
-  width: 100%;
-  min-width: 480px;
   border-collapse: collapse;
   font-size: 0.95rem;
   line-height: 1.5;

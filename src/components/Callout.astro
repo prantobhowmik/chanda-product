@@ -1,0 +1,41 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  title?: string;
+  tone?: 'info' | 'warn';
+}
+const { title, tone = 'info' } = Astro.props;
+---
+
+<aside class={`callout callout--${tone}`}>
+  <span class="callout__icon"><Icon name={tone === 'warn' ? 'warn' : 'info'} size={20} /></span>
+  <div>
+    {title && <strong>{title}</strong>}
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .callout {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    padding: 18px 20px;
+    border-radius: var(--radius-m);
+    background: var(--teal-soft);
+    font-size: 0.97rem;
+    line-height: 1.65;
+  }
+  .callout__icon {
+    flex: none;
+    margin-top: 2px;
+    color: var(--teal);
+  }
+  .callout--warn .callout__icon {
+    color: var(--danger);
+  }
+  strong {
+    display: block;
+  }
+</style>

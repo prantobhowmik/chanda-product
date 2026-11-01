@@ -1,0 +1,72 @@
+---
+import Icon from './Icon.astro';
+---
+
+<button type="button" class="theme-toggle" data-theme-toggle aria-label="Switch to dark theme">
+  <span class="icon icon--moon"><Icon name="moon" size={20} /></span>
+  <span class="icon icon--sun"><Icon name="sun" size={20} /></span>
+</button>
+
+<style>
+  .theme-toggle {
+    display: inline-grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-s);
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    transition:
+      border-color var(--ease),
+      color var(--ease);
+  }
+  .theme-toggle:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .icon--sun {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .icon--moon {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .icon--sun {
+    display: inline-flex;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .icon--moon {
+      display: none;
+    }
+    :global(:root:not([data-theme='light'])) .icon--sun {
+      display: inline-flex;
+    }
+  }
+</style>
+
+<script>
+  const root = document.documentElement;
+  const dark = window.matchMedia('(prefers-color-scheme: dark)');
+  const effective = () => root.getAttribute('data-theme') ?? (dark.matches ? 'dark' : 'light');
+
+  const sync = () => {
+    const label = effective() === 'dark' ? 'Switch to light theme' : 'Switch to dark theme';
+    document.querySelectorAll('[data-theme-toggle]').forEach((b) => b.setAttribute('aria-label', label));
+  };
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      const next = effective() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try {
+        localStorage.setItem('theme', next);
+      } catch {
+        /* storage unavailable */
+      }
+      sync();
+    });
+  });
+  dark.addEventListener('change', sync);
+  sync();
+</script>

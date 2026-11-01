@@ -1,0 +1,92 @@
+---
+interface Props {
+  /** When unset the button renders as a disabled state showing `disabledLabel`. */
+  href?: string | undefined;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'md' | 'lg';
+  disabledLabel?: string;
+  external?: boolean;
+  block?: boolean;
+}
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  disabledLabel = 'Coming soon',
+  external = false,
+  block = false,
+} = Astro.props;
+const cls = ['btn', `btn--${variant}`, `btn--${size}`, block && 'btn--block'].filter(Boolean).join(' ');
+---
+
+{
+  href ? (
+    <a class={cls} href={href} {...(external ? { rel: 'noopener' } : {})}>
+      <slot />
+    </a>
+  ) : (
+    <span class={`${cls} btn--disabled`} aria-disabled="true" role="link">
+      {disabledLabel}
+    </span>
+  )
+}
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 48px;
+    padding: 12px 22px;
+    border-radius: var(--radius-s);
+    border: 1px solid transparent;
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-align: center;
+    cursor: pointer;
+    transition:
+      background-color var(--ease),
+      border-color var(--ease),
+      color var(--ease);
+  }
+  .btn--lg {
+    padding: 16px 28px;
+    border-radius: var(--radius-m);
+  }
+  .btn--block {
+    display: flex;
+    width: 100%;
+  }
+  .btn--primary {
+    background: var(--teal);
+    color: var(--on-teal);
+  }
+  .btn--primary:hover {
+    background: var(--teal-deep);
+  }
+  .btn--secondary {
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--ink);
+  }
+  .btn--secondary:hover {
+    border-color: var(--teal);
+    color: var(--teal);
+  }
+  .btn--ghost {
+    color: var(--teal);
+    padding-inline: 12px;
+  }
+  .btn--ghost:hover {
+    color: var(--teal-deep);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+  .btn--disabled {
+    background: var(--ground);
+    border-color: var(--border);
+    color: var(--muted);
+    cursor: not-allowed;
+  }
+</style>

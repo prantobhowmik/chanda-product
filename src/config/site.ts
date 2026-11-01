@@ -7,7 +7,7 @@
 export interface Release {
   version: string;
   /** ISO date (YYYY-MM-DD). Optional: hidden when unset. */
-  date?: string;
+  date?: string | undefined;
   notes: string[];
 }
 
@@ -23,13 +23,13 @@ export interface SiteConfig {
   license: string;
   webAppUrl: string;
   /** Direct link to the APK (for example a public GitHub Release asset). Unset: the button is disabled. */
-  apkUrl?: string;
+  apkUrl?: string | undefined;
   /** APK size in MB. Optional. */
-  apkSizeMb?: number;
+  apkSizeMb?: number | undefined;
   androidMin: string;
   iosStatus: 'coming-soon' | 'available';
   /** Optional. Unset: contact links are hidden. */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** Latest first. */
   releases: Release[];
 }
