@@ -49,7 +49,7 @@ For a custom domain, change `url` in `src/config/site.ts`.
 
 | Field | State |
 | --- | --- |
-| `apkUrl` | Unset. The Android button shows "APK link coming soon". |
+| `apkUrl` | Set to the GitHub Release asset for v2.0.0. |
 | `contactEmail` | Unset. Contact links are hidden. |
 | `url` | Placeholder `chanda-product.vercel.app`. Set to the real domain. |
 | `releases[0].date` | Unset. The date is hidden. |

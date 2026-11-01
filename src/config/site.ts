@@ -44,7 +44,7 @@ export const site: SiteConfig = {
   version: '2.0.0',
   license: 'MIT',
   webAppUrl: 'https://chanda-blush.vercel.app/',
-  apkUrl: undefined,
+  apkUrl: 'https://github.com/prantobhowmik/CHANDA/releases/download/v2.0.0/Chanda.apk',
   apkSizeMb: 113,
   androidMin: '7.0',
   iosStatus: 'coming-soon',
