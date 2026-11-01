@@ -19,7 +19,7 @@ const jsonLd = {
   applicationCategory: 'FinanceApplication',
   operatingSystem: 'Android, Web',
   softwareVersion: site.version,
-  license: 'https://opensource.org/licenses/MIT',
+  license: site.licenseUrl,
   ...(site.apkUrl ? { downloadUrl: site.apkUrl } : {}),
 };
 ---

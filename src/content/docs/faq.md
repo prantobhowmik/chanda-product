@@ -39,4 +39,4 @@ Yes. Choose light, dark or system theme.
 
 ## What licence is Chanda under?
 
-MIT.
+Apache License 2.0.

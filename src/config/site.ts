@@ -21,6 +21,7 @@ export interface SiteConfig {
   /** Must match releases[0].version. */
   version: string;
   license: string;
+  licenseUrl: string;
   webAppUrl: string;
   /** Direct link to the APK (for example a public GitHub Release asset). Unset: the button is disabled. */
   apkUrl?: string | undefined;
@@ -42,7 +43,8 @@ export const site: SiteConfig = {
     'Chanda is an offline-first app for community committees to record donations and expenses and keep everyone’s books in sync.',
   url: 'https://chanda-product.vercel.app',
   version: '2.0.0',
-  license: 'MIT',
+  license: 'Apache 2.0',
+  licenseUrl: 'https://www.apache.org/licenses/LICENSE-2.0',
   webAppUrl: 'https://chanda-blush.vercel.app/',
   apkUrl: 'https://github.com/prantobhowmik/CHANDA/releases/download/v2.0.0/Chanda.apk',
   apkSizeMb: 113,
