@@ -1,0 +1,123 @@
+---
+import { getDocs, groupDocs, docHref } from '../lib/docs';
+
+interface Props {
+  currentId: string;
+}
+const { currentId } = Astro.props;
+const groups = groupDocs(await getDocs());
+---
+
+<details class="mobile">
+  <summary>Docs pages</summary>
+  <nav aria-label="Docs pages">
+    {
+      groups.map((g) => (
+        <div class="group">
+          <p class="group__title">{g.group}</p>
+          <ul>
+            {g.items.map((d) => (
+              <li>
+                <a href={docHref(d)} aria-current={d.id === currentId ? 'page' : undefined}>
+                  {d.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </nav>
+</details>
+
+<nav class="desktop" aria-label="Docs pages">
+  {
+    groups.map((g) => (
+      <div class="group">
+        <p class="group__title">{g.group}</p>
+        <ul>
+          {g.items.map((d) => (
+            <li>
+              <a href={docHref(d)} aria-current={d.id === currentId ? 'page' : undefined}>
+                {d.data.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    ))
+  }
+</nav>
+
+<style>
+  .desktop {
+    display: none;
+  }
+  .mobile {
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+  }
+  .mobile summary {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 0 18px;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .mobile nav {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 4px 18px 18px;
+  }
+  .group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .group__title {
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    list-style: none;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: color var(--ease);
+  }
+  a:hover {
+    color: var(--teal);
+  }
+  a[aria-current='page'] {
+    color: var(--teal);
+    font-weight: 800;
+  }
+
+  @media (min-width: 1024px) {
+    .mobile {
+      display: none;
+    }
+    .desktop {
+      position: sticky;
+      top: calc(var(--nav-h) + 32px);
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      max-height: calc(100vh - var(--nav-h) - 64px);
+      overflow-y: auto;
+    }
+  }
+</style>
