@@ -1,0 +1,59 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+}
+const items = Astro.props.headings.filter((h) => h.depth === 2);
+---
+
+{
+  items.length > 1 && (
+    <nav class="toc" aria-labelledby="toc-title">
+      <p class="toc__title" id="toc-title">On this page</p>
+      <ul>
+        {items.map((h) => (
+          <li>
+            <a href={`#${h.slug}`}>{h.text}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  )
+}
+
+<style>
+  .toc {
+    display: none;
+  }
+  .toc__title {
+    margin-bottom: 8px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  ul {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    list-style: none;
+  }
+  a {
+    display: flex;
+    align-items: center;
+    min-height: 36px;
+    font-size: 0.875rem;
+    color: var(--muted);
+    transition: color var(--ease);
+  }
+  a:hover {
+    color: var(--teal);
+  }
+  @media (min-width: 1180px) {
+    .toc {
+      position: sticky;
+      top: calc(var(--nav-h) + 32px);
+      display: block;
+    }
+  }
+</style>

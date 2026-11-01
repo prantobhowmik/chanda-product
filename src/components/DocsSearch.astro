@@ -1,0 +1,273 @@
+---
+import Icon from './Icon.astro';
+---
+
+<div class="search" data-search role="search">
+  <label class="sr-only" for="doc-search">Search docs</label>
+  <span class="search__icon"><Icon name="search" size={18} /></span>
+  <input
+    id="doc-search"
+    class="search__input"
+    type="search"
+    placeholder="Search the docs"
+    autocomplete="off"
+    spellcheck="false"
+    role="combobox"
+    aria-expanded="false"
+    aria-controls="doc-search-results"
+    aria-autocomplete="list"
+    data-search-input
+  />
+  <ul id="doc-search-results" class="search__results" role="listbox" aria-label="Search results" hidden data-search-results>
+  </ul>
+  <p class="sr-only" aria-live="polite" data-search-status></p>
+</div>
+
+<style>
+  .search {
+    position: relative;
+  }
+  .search__icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    pointer-events: none;
+  }
+  .search__input {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 16px 10px 42px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-s);
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-size: 0.95rem;
+    transition: border-color var(--ease);
+  }
+  .search__input::placeholder {
+    color: var(--muted);
+  }
+  .search__input:hover {
+    border-color: var(--teal);
+  }
+  .search__results {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(100% + 8px);
+    z-index: 60;
+    display: flex;
+    flex-direction: column;
+    max-height: 70vh;
+    overflow-y: auto;
+    padding: 6px;
+    list-style: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+  }
+  .search__results[hidden] {
+    display: none;
+  }
+  .search__results :global(a) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-height: 44px;
+    padding: 10px 12px;
+    border-radius: var(--radius-s);
+  }
+  .search__results :global(a:hover),
+  .search__results :global(a[aria-selected='true']) {
+    background: var(--teal-soft);
+  }
+  .search__results :global(.t) {
+    font-weight: 700;
+    font-size: 0.95rem;
+  }
+  .search__results :global(.d) {
+    font-size: 0.8125rem;
+    color: var(--muted);
+  }
+  .search__results :global(.loading) {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 14px 12px;
+  }
+  .search__results :global(.loading__row) {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+  .search__results :global(.empty) {
+    padding: 12px;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+</style>
+
+<script>
+  interface Entry {
+    title: string;
+    description: string;
+    url: string;
+    group: string;
+    headings: string;
+    text: string;
+  }
+
+  const root = document.querySelector<HTMLElement>('[data-search]');
+  const input = root?.querySelector<HTMLInputElement>('[data-search-input]');
+  const list = root?.querySelector<HTMLUListElement>('[data-search-results]');
+  const status = root?.querySelector<HTMLElement>('[data-search-status]');
+
+  let index: Entry[] | null = null;
+  let loading: Promise<void> | null = null;
+  let active = -1;
+
+  const load = () => {
+    loading ??= fetch('/search.json')
+      .then((r) => r.json())
+      .then((data: Entry[]) => {
+        index = data;
+      })
+      .catch(() => {
+        index = [];
+      });
+    return loading;
+  };
+
+  const score = (e: Entry, terms: string[]) => {
+    let total = 0;
+    for (const t of terms) {
+      const s =
+        (e.title.toLowerCase().includes(t) ? 5 : 0) +
+        (e.headings.toLowerCase().includes(t) ? 3 : 0) +
+        (e.description.toLowerCase().includes(t) ? 2 : 0) +
+        (e.text.toLowerCase().includes(t) ? 1 : 0);
+      if (s === 0) return 0;
+      total += s;
+    }
+    return total;
+  };
+
+  const close = () => {
+    if (!list || !input) return;
+    list.hidden = true;
+    input.setAttribute('aria-expanded', 'false');
+    input.removeAttribute('aria-activedescendant');
+    active = -1;
+  };
+
+  const options = () => Array.from(list?.querySelectorAll<HTMLAnchorElement>('a') ?? []);
+
+  const setActive = (i: number) => {
+    const opts = options();
+    if (opts.length === 0 || !input) return;
+    active = (i + opts.length) % opts.length;
+    opts.forEach((o, n) => o.setAttribute('aria-selected', String(n === active)));
+    input.setAttribute('aria-activedescendant', opts[active]!.id);
+    opts[active]!.scrollIntoView({ block: 'nearest' });
+  };
+
+  const showLoading = () => {
+    if (!list || !input) return;
+    list.replaceChildren();
+    const li = document.createElement('li');
+    li.className = 'loading';
+    li.setAttribute('role', 'presentation');
+    li.setAttribute('aria-busy', 'true');
+    li.innerHTML =
+      '<span class="loading__row"><span class="spinner" aria-hidden="true"></span><span>Searching\u2026</span></span>' +
+      '<span class="skeleton skeleton--w60 skeleton--h14"></span>' +
+      '<span class="skeleton skeleton--w90 skeleton--h12"></span>' +
+      '<span class="skeleton skeleton--w50 skeleton--h14"></span>' +
+      '<span class="skeleton skeleton--w80 skeleton--h12"></span>';
+    list.append(li);
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+  };
+
+  const render = () => {
+    if (!list || !input || !index) return;
+    const terms = input.value.toLowerCase().split(/\s+/).filter(Boolean);
+    if (terms.length === 0) return close();
+
+    const hits = index
+      .map((e) => ({ e, s: score(e, terms) }))
+      .filter((x) => x.s > 0)
+      .sort((a, b) => b.s - a.s)
+      .slice(0, 8);
+
+    list.replaceChildren();
+    if (hits.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'empty';
+      li.textContent = 'No pages match your search.';
+      list.append(li);
+    }
+    hits.forEach(({ e }, n) => {
+      const li = document.createElement('li');
+      li.setAttribute('role', 'presentation');
+      const a = document.createElement('a');
+      a.href = e.url;
+      a.id = `search-opt-${n}`;
+      a.setAttribute('role', 'option');
+      a.setAttribute('aria-selected', 'false');
+      const t = document.createElement('span');
+      t.className = 't';
+      t.textContent = e.title;
+      const d = document.createElement('span');
+      d.className = 'd';
+      d.textContent = e.description;
+      a.append(t, d);
+      li.append(a);
+      list.append(li);
+    });
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    active = -1;
+    if (status) status.textContent = hits.length ? `${hits.length} results` : 'No results';
+  };
+
+  input?.addEventListener('focus', () => void load());
+  input?.addEventListener('input', () => {
+    if (!index && input.value.trim()) showLoading();
+    void load().then(render);
+  });
+  input?.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActive(active + 1);
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActive(active - 1);
+    } else if (e.key === 'Enter') {
+      const opts = options();
+      const target = opts[active] ?? (opts.length === 1 ? opts[0] : undefined);
+      if (target) {
+        e.preventDefault();
+        window.location.href = target.href;
+      }
+    } else if (e.key === 'Escape') {
+      if (list && !list.hidden) {
+        e.preventDefault();
+        close();
+      } else if (input) {
+        input.value = '';
+      }
+    }
+  });
+  document.addEventListener('click', (e) => {
+    if (root && !root.contains(e.target as Node)) close();
+  });
+  root?.addEventListener('focusout', (e) => {
+    if (!root.contains((e as FocusEvent).relatedTarget as Node | null)) close();
+  });
+</script>

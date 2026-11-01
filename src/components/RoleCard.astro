@@ -1,0 +1,33 @@
+---
+interface Props {
+  name: string;
+}
+const { name } = Astro.props;
+---
+
+<article class="role">
+  <h3>{name}</h3>
+  <p><slot /></p>
+</article>
+
+<style>
+  /* The roles band is always dark, so these colours are fixed on purpose. */
+  .role {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 22px;
+    background: #111e20;
+    border: 1px solid #1f3234;
+    border-radius: var(--radius-l);
+  }
+  h3 {
+    color: #3cc4b4;
+    font-size: 1.125rem;
+  }
+  p {
+    color: #a9bfc0;
+    font-size: 0.97rem;
+    line-height: 1.55;
+  }
+</style>
