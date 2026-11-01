@@ -19,14 +19,7 @@ const links = [
 <header class="nav">
   <div class="container nav__bar">
     <a class="brand" href="/">
-      <span class="brand__mark" aria-hidden="true">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round">
-          <circle cx="12" cy="12" r="7.5"></circle>
-          <path d="M12 8.5v7M9.5 12h5"></path>
-        </svg>
-      </span>
-      <span class="brand__word" lang="bn">{site.nameBn}</span>
-      <span class="sr-only">{site.name} home</span>
+      <img src="/logo-nav.png" width="48" height="48" alt={`${site.name} home`} />
     </a>
 
     <div class="nav__extra"><slot /></div>
@@ -84,23 +77,6 @@ const links = [
     gap: 10px;
     min-height: 44px;
     margin-right: auto;
-  }
-  .brand__mark {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: 10px;
-    background: var(--teal-deep);
-  }
-  :global(:root[data-theme='dark']) .brand__mark {
-    background: #0f766e;
-  }
-  .brand__word {
-    font-family: var(--font-bn);
-    font-weight: 700;
-    font-size: 1.5rem;
-    line-height: 1;
   }
   .nav__extra:empty {
     display: none;
