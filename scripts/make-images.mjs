@@ -19,3 +19,13 @@ await sharp('public/logo.png').resize(180, 180).flatten({ background: '#ffffff' 
 await sharp('public/logo.png').resize(64, 64).png().toFile('public/favicon.png');
 await sharp('public/logo.png').resize(96, 96).png().toFile('public/logo-nav.png');
 console.log('images written');
+
+// Hero app screenshots: crop the phone status bar, resize, convert to webp.
+for (const theme of ['light', 'dark']) {
+  await sharp(`reference/app-dashboard-${theme}.png`)
+    .extract({ left: 0, top: 64, width: 717, height: 1536 })
+    .resize({ width: 600 })
+    .webp({ quality: 82 })
+    .toFile(`public/screens/dashboard-${theme}.webp`);
+}
+console.log('screens written');

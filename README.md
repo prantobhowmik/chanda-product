@@ -56,4 +56,4 @@ For a custom domain, change `url` in `src/config/site.ts`.
 | `apkSizeMb` | 113 (size of the supplied APK). |
 | `androidMin` | "7.0". Matches the supplied APK (minSdk 24). |
 
-No `/privacy` page exists until privacy text is provided. The phone mock is CSS with sample data; replace it with real screenshots when available.
+No `/privacy` page exists until privacy text is provided. The hero uses real app screenshots (`reference/app-dashboard-*.png`, processed by `npm run images`).

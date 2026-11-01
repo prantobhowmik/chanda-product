@@ -1,0 +1,61 @@
+---
+/** Real app screenshot in a phone frame. Follows the site theme (light/dark). */
+---
+
+<figure class="phone">
+  <div class="phone__frame">
+    <img
+      class="shot shot--light"
+      src="/screens/dashboard-light.webp"
+      width="600"
+      height="1285"
+      alt="Chanda dashboard in light theme: remaining balance, collected and spent totals, and recent activity for a festival."
+      fetchpriority="high"
+      decoding="async"
+    />
+    <img
+      class="shot shot--dark"
+      src="/screens/dashboard-dark.webp"
+      width="600"
+      height="1285"
+      alt="Chanda dashboard in dark theme: remaining balance, collected and spent totals, and recent activity for a festival."
+      decoding="async"
+    />
+  </div>
+</figure>
+
+<style>
+  .phone {
+    display: flex;
+    justify-content: center;
+  }
+  .phone__frame {
+    width: min(300px, 100%);
+    padding: 10px;
+    border-radius: 44px;
+    background: #0e1e1f;
+    box-shadow: 0 40px 80px -30px rgba(15, 118, 110, 0.45);
+  }
+  .shot {
+    width: 100%;
+    height: auto;
+    border-radius: 36px;
+  }
+  .shot--dark {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .shot--light {
+    display: none;
+  }
+  :global(:root[data-theme='dark']) .shot--dark {
+    display: block;
+  }
+  @media (prefers-color-scheme: dark) {
+    :global(:root:not([data-theme='light'])) .shot--light {
+      display: none;
+    }
+    :global(:root:not([data-theme='light'])) .shot--dark {
+      display: block;
+    }
+  }
+</style>
