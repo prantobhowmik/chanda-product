@@ -46,7 +46,7 @@ export const site: SiteConfig = {
   license: 'Apache 2.0',
   licenseUrl: 'https://www.apache.org/licenses/LICENSE-2.0',
   webAppUrl: 'https://chanda-blush.vercel.app/',
-  apkUrl: 'https://github.com/prantobhowmik/CHANDA/releases/download/v2.0.0/Chanda.apk',
+  apkUrl: 'https://github.com/prantobhowmik/chanda-product/releases/download/v2.0.0/Chanda.apk',
   apkSizeMb: 113,
   androidMin: '7.0',
   iosStatus: 'coming-soon',
