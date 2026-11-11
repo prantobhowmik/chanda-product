@@ -23,6 +23,10 @@ Donations and expenses are the two kinds of entry. Both save on your phone first
 
 Dates cannot be in the future.
 
+## Editing
+
+You can edit donations and expenses after saving them. An edit by someone who is not an admin needs admin approval before it applies. See [Approvals](/docs/approvals).
+
 ## Members and approvals
 
 When a member submits a donation or expense, an admin approves or rejects it. See [Approvals](/docs/approvals).

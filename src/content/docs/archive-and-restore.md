@@ -9,4 +9,5 @@ Chanda archives instead of deleting. This applies to donations, expenses and mem
 
 - Archived items are kept, not erased.
 - Admins can restore archived items.
+- Archives and restores are recorded in the [Activity logs](/docs/activity-logs).
 - An archive requested by someone who is not an admin needs admin approval first. See [Approvals](/docs/approvals).

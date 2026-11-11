@@ -1,6 +1,6 @@
 ---
 title: FAQ
-description: Short answers about availability, offline use, archiving and licence.
+description: Short answers about availability, offline use, editing, archiving and licence.
 order: 9
 group: More
 ---
@@ -20,6 +20,14 @@ Yes. Entries save on the phone first. Internet is needed for sign in, sync and b
 ## Can I delete a donation, expense or member?
 
 Chanda archives instead of deleting. Admins can restore archived items. See [Archive and restore](/docs/archive-and-restore).
+
+## Can I edit a donation or expense?
+
+Yes. An edit by someone who is not an admin needs admin approval before it applies. See [Approvals](/docs/approvals).
+
+## Where can I see what changed?
+
+Open Activity Logs from the avatar menu. See [Activity logs](/docs/activity-logs).
 
 ## Which payment methods can I record?
 

@@ -19,5 +19,5 @@ Chanda is an offline-first app for community committees to record donations and 
 2. Create a [festival](/docs/festivals) for your fund or event.
 3. Invite your members by email. See [Roles and invites](/docs/roles-and-invites).
 4. [Record donations and expenses](/docs/recording-entries) as they happen.
-5. Admins [approve or reject](/docs/approvals) submissions and watch the balance.
+5. Admins [approve or reject](/docs/approvals) submissions and edits, and watch the balance. The [Activity logs](/docs/activity-logs) show what changed.
 6. [Export reports](/docs/reports-and-export) as PDF or Excel files.
