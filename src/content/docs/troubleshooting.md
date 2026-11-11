@@ -17,4 +17,4 @@ Sync needs an internet connection. Entries you record offline are saved on the p
 
 ## I want to change my password
 
-Use Change password in the app.
+Use Change password in the app. It has its own screen with a strength checklist and a reset link. See [Account and security](/docs/account-and-security).
