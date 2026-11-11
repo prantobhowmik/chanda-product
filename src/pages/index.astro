@@ -7,7 +7,7 @@ import RoleCard from '../components/RoleCard.astro';
 import AppScreenshot from '../components/AppScreenshot.astro';
 import { site } from '../config/site';
 
-const strip = ['Offline first', 'Role based access', 'Approval workflow', 'PDF and Excel reports'];
+const strip = ['Offline first', 'Role based access', 'Approval workflow', 'PDF and Excel reports', 'Public live count'];
 
 const jsonLd = {
   '@context': 'https://schema.org',
@@ -44,7 +44,8 @@ const jsonLd = {
         <Button href={site.webAppUrl} variant="secondary" size="lg" external>Open web app</Button>
         <Button href="/docs/getting-started" variant="ghost" size="lg">Read the docs</Button>
       </div>
-      <p class="hero__note muted">Available now on the web and for Android. iOS is coming soon.</p>
+      <p class="hero__note muted">Available now on the web and for Android. iOS is coming soon. Following a team?
+        <a href="/#public">See the public live count</a>.</p>
     </div>
     <AppScreenshot />
   </section>
@@ -85,6 +86,9 @@ const jsonLd = {
         Change your password with a strength checklist, review your password change history and get a security
         notification when it changes.
       </FeatureCard>
+      <FeatureCard icon="dashboard" title="Public live count">
+        Share a team ID or link and anyone can follow the live collection and expenses on a public page, no sign-in needed.
+      </FeatureCard>
       <FeatureCard icon="reports" title="Reports and sharing">
         Export PDF and Excel files and share them from the app. Record cash, bKash, Nagad and bank payments.
       </FeatureCard>
@@ -107,6 +111,28 @@ const jsonLd = {
         Admins approve or reject requests, check the balance and export PDF or Excel reports.
       </Step>
     </ol>
+  </section>
+
+  <section class="section container" id="public" aria-labelledby="public-title">
+    <div class="section-head">
+      <p class="eyebrow">Public live count</p>
+      <h2 id="public-title">Show everyone the numbers, no sign-in needed.</h2>
+    </div>
+    <ol class="grid grid--steps">
+      <Step n="01" title="Ask the committee">
+        Anyone who wants to follow a team's count asks the committee for the team ID.
+      </Step>
+      <Step n="02" title="Get an ID or a link">
+        The committee shares the team ID, or a ready link such as <code>{site.publicViewUrl.replace('https://', '')}/team_…</code>.
+      </Step>
+      <Step n="03" title="Watch the count live">
+        Open the link, or enter the team ID on the public page, to see the committee's live collection and expenses.
+      </Step>
+    </ol>
+    <div class="public__actions">
+      <Button href={site.publicViewUrl} variant="secondary" size="lg" external>Open the public page</Button>
+      <Button href="/docs/public-live-count" variant="ghost" size="lg">How it works</Button>
+    </div>
   </section>
 
   <section class="section container" aria-labelledby="roles-title">
@@ -220,6 +246,13 @@ const jsonLd = {
   .grid--steps {
     gap: 40px;
     grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  }
+
+  .public__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 40px;
   }
 
   .roles {

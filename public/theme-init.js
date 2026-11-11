@@ -5,4 +5,5 @@
     var t = localStorage.getItem('theme');
     if (t === 'light' || t === 'dark') d.setAttribute('data-theme', t);
   } catch (e) {}
+  d.setAttribute('data-theme-mode', d.getAttribute('data-theme') || 'system');
 })();
